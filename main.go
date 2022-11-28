@@ -29,27 +29,32 @@ func main() {
 }
 
 type Project struct {
-	Id         int
-	Title      string
-	DateStart  string
-	DateEnd    string
-	Content    string
-	NodeJs     string
-	NextJs     string
-	ReactJs    string
-	Javascript string
+	Id                int
+	Title             string
+	DateStart         string
+	DateEnd           string
+	Content           string
+	NodeJs            string
+	NextJs            string
+	ReactJs           string
+	Javascript        string
+	NodeJsChecked     string
+	NextJsChecked     string
+	ReactJsChecked    string
+	JavascriptChecked string
 }
 
 var projects = []Project{
 	{
-		Title:      "Aplikasi web dumbways",
-		DateStart:  "11 november 2022",
-		DateEnd:    "12 desember 2022",
-		Content:    "lorem ipsum dolor si amet",
-		NodeJs:     "public/img/nodejs.svg",
-		NextJs:     "public/img/nextjs.svg",
-		ReactJs:    "public/img/react.svg",
-		Javascript: "public/img/javascript.svg",
+		Title:     "Aplikasi web dumbways",
+		DateStart: "11 november 2022",
+		DateEnd:   "12 desember 2022",
+		Content:   "lorem ipsum dolor si amet",
+		// NodeJs:        "public/img/nodejs.svg",
+		NextJs:        "public/img/nextjs.svg",
+		ReactJs:       "public/img/react.svg",
+		Javascript:    "public/img/javascript.svg",
+		NodeJsChecked: "none",
 	},
 }
 
@@ -69,49 +74,62 @@ func addProject(w http.ResponseWriter, r *http.Request) {
 	nextJs := r.PostForm.Get("nextJs")
 	reactJs := r.PostForm.Get("reactJs")
 	javascript := r.PostForm.Get("javascript")
+	// nodeJs := r.Form["nodeJs"][0] == "true"
 
 	var nodeJsPath = ""
+	var nodeJsChecked = ""
 	var nextJsPath = ""
+	var nextJsChecked = ""
 	var reactJsPath = ""
+	var reactJsChecked = ""
 	var javascriptPath = ""
+	var javascriptChecked = ""
 
 	if nodeJs == "true" {
 		nodeJsPath = "public/img/nodejs.svg"
+		nodeJsChecked = "checked"
 	} else {
 		nodeJsPath = "d-none"
 	}
 
 	if nextJs == "true" {
 		nextJsPath = "public/img/nextjs.svg"
+		nextJsChecked = "checked"
 	} else {
 		nextJsPath = "d-none"
 	}
 
 	if reactJs == "true" {
 		reactJsPath = "public/img/react.svg"
+		reactJsChecked = "checked"
 	} else {
 		reactJsPath = "d-none"
 	}
 
 	if javascript == "true" {
 		javascriptPath = "public/img/javascript.svg"
+		javascriptChecked = "checked"
 	} else {
 		javascriptPath = "d-none"
 	}
 
 	var newProject = Project{
-		Title:      title,
-		Content:    content,
-		DateStart:  dateStart,
-		DateEnd:    dateEnd,
-		NodeJs:     nodeJsPath,
-		NextJs:     nextJsPath,
-		ReactJs:    reactJsPath,
-		Javascript: javascriptPath,
+		Title:             title,
+		Content:           content,
+		DateStart:         dateStart,
+		DateEnd:           dateEnd,
+		NodeJs:            nodeJsPath,
+		NodeJsChecked:     nodeJsChecked,
+		NextJs:            nextJsPath,
+		NextJsChecked:     nextJsChecked,
+		ReactJs:           reactJsPath,
+		ReactJsChecked:    reactJsChecked,
+		Javascript:        javascriptPath,
+		JavascriptChecked: javascriptChecked,
 	}
 	projects = append(projects, newProject)
 
-	fmt.Println(projects)
+	fmt.Println(nodeJs)
 
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
@@ -132,17 +150,21 @@ func formEditProject(w http.ResponseWriter, r *http.Request) {
 	for i, data := range projects {
 		if i == index {
 			ProjectEdit = Project{
-				Id:        i,
-				Title:     data.Title,
-				Content:   data.Content,
-				DateStart: data.DateStart,
-				DateEnd:   data.DateEnd,
-				NodeJs:    data.NodeJs,
+				Id:                i,
+				Title:             data.Title,
+				Content:           data.Content,
+				DateStart:         data.DateStart,
+				DateEnd:           data.DateEnd,
+				NodeJs:            data.NodeJs,
+				NodeJsChecked:     data.NodeJsChecked,
+				NextJsChecked:     data.NextJsChecked,
+				ReactJsChecked:    data.ReactJsChecked,
+				JavascriptChecked: data.JavascriptChecked,
 			}
 		}
 	}
 
-	fmt.Println(projects)
+	// fmt.Println(projects)
 
 	dataEdit := map[string]interface{}{
 		"Project": ProjectEdit,
@@ -175,6 +197,7 @@ func editProject(w http.ResponseWriter, r *http.Request) {
 	// projects = append(projects, newProject)
 	projects[index] = newProject
 
+	fmt.Println(index)
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
