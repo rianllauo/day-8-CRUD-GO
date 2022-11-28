@@ -187,11 +187,61 @@ func editProject(w http.ResponseWriter, r *http.Request) {
 	dateStart := r.PostForm.Get("date-start")
 	dateEnd := r.PostForm.Get("date-end")
 
+	nodeJs := r.PostForm.Get("nodeJs")
+	nextJs := r.PostForm.Get("nextJs")
+	reactJs := r.PostForm.Get("reactJs")
+	javascript := r.PostForm.Get("javascript")
+
+	var nodeJsPath = ""
+	var nodeJsChecked = ""
+	var nextJsPath = ""
+	var nextJsChecked = ""
+	var reactJsPath = ""
+	var reactJsChecked = ""
+	var javascriptPath = ""
+	var javascriptChecked = ""
+
+	if nodeJs == "true" {
+		nodeJsPath = "public/img/nodejs.svg"
+		nodeJsChecked = "checked"
+	} else {
+		nodeJsPath = "d-none"
+	}
+
+	if nextJs == "true" {
+		nextJsPath = "public/img/nextjs.svg"
+		nextJsChecked = "checked"
+	} else {
+		nextJsPath = "d-none"
+	}
+
+	if reactJs == "true" {
+		reactJsPath = "public/img/react.svg"
+		reactJsChecked = "checked"
+	} else {
+		reactJsPath = "d-none"
+	}
+
+	if javascript == "true" {
+		javascriptPath = "public/img/javascript.svg"
+		javascriptChecked = "checked"
+	} else {
+		javascriptPath = "d-none"
+	}
+
 	var newProject = Project{
-		Title:     title,
-		Content:   content,
-		DateStart: dateStart,
-		DateEnd:   dateEnd,
+		Title:             title,
+		Content:           content,
+		DateStart:         dateStart,
+		DateEnd:           dateEnd,
+		NodeJs:            nodeJsPath,
+		NodeJsChecked:     nodeJsChecked,
+		NextJs:            nextJsPath,
+		NextJsChecked:     nextJsChecked,
+		ReactJs:           reactJsPath,
+		ReactJsChecked:    reactJsChecked,
+		Javascript:        javascriptPath,
+		JavascriptChecked: javascriptChecked,
 	}
 
 	// projects = append(projects, newProject)
